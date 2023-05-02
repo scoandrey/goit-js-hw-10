@@ -1,8 +1,7 @@
-
 import './css/styles.css'
 import debounce from 'lodash.debounce'
 import Notiflix from 'notiflix'
-import { fetchCountries } from './fetchCountries.js'
+import { fetchCountries } from './fetchCountries'
 
 const DEBOUNCE_DELAY = 300
 
@@ -23,20 +22,20 @@ function onCountryInput() {
       countryList.innerHTML = ''
       countryInfo.innerHTML = ''
       if (countries.length === 1) {
-        countryList.insertAdjacentHTML('beforeend', countryList(countries))
-        countryInfo.insertAdjacentHTML('beforeend', countryInfo(countries))
+        countryList.insertAdjacentHTML('beforeend', renderCountryList(countries))
+        countryInfo.insertAdjacentHTML('beforeend', renderCountryInfo(countries))
       } else if (countries.length >= 10) {
-            Notiflix.Notify.info('Too many matches found. Please enter a more specific name.');
+        Notiflix.Notify.info('Too many matches found. Please enter a more specific name.')
       } else {
         countryList.insertAdjacentHTML('beforeend', renderCountryList(countries))
       }
     })
-    .catch(function wrongName() {
-        Notiflix.Notify.failure('Oops, there is no country with that name')
-      })
+    .catch(function alertWrongName() {
+      Notiflix.Notify.failure('Oops, there is no country with that name')
+    })
 }
 
-function countryList(countries) {
+function renderCountryList(countries) {
   const markup = countries
     .map(({ name, flags }) => {
       return `
@@ -50,7 +49,7 @@ function countryList(countries) {
   return markup
 }
 
-function countryInfo(countries) {
+function renderCountryInfo(countries) {
   const markup = countries
     .map(({ capital, population, languages }) => {
       return `
